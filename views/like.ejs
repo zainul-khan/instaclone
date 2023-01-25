@@ -1,0 +1,60 @@
+<%- include('./partials/header.ejs') %>
+
+<div class="home-page">
+    <h3 style="margin-top: 2rem; font-family: cursive; font-weight: 500;"  class="text-center mt-4">Likes: <%= post_likes_count %></h3>
+    <% console.log(post_likes_count)%>
+    <% console.log('haha', post_likes, page, limit, post_likes_count) %>
+    <input type="hidden" value="<%= page %>" id="page">
+    <input type="hidden" value="<%= limit %>" id="limit">
+    <input type="hidden" value="<%= post_likes_count %>" id="post_likes_count">
+
+    <% if(post_likes_count > 0 ) {  %>
+        <div class="post-container">
+            <% post_likes.forEach((val, idx)=>{ %>
+                <div class="like-body">
+                <div class="post-header">
+                <ul>
+                    <li> <img src="<%= val.user_id.user_pic %>" alt="user-profile" class="post-dp-image"> <%= val.user_id.username %> </li>
+                </ul>
+                <div class="btn btn-primary">Follow</div>
+            </div>
+        </div>
+            <%  }) %>
+            <% if(post_likes_count > 0 ) {  %>
+                <div class="btn btn-primary like-body" id="load_comment_btn" onclick="load_likes('<%= post_likes[0].post_id %>')">Load More</div>  
+             <% } %>
+        </div>
+    <% } else { %>
+        <p class="text-muted text-center" style="font-size: 2rem;">No Likes Found!</p>
+    <% } %>
+ 
+</div>
+
+<%- include ('./partials/footer.ejs') %>
+
+<script>
+    async function load_likes(post_id){
+        console.log(post_id);
+        console.log("clicked");
+        console.log(post_id);
+        let page = Number.parseInt(document.getElementById("page").value);
+        let limit = Number.parseInt(document.getElementById("limit").value);
+        let post_likes_count = Number.parseInt(document.getElementById("post_likes_count").value);
+        
+
+        let skip = page * limit;
+        console.log('skip', skip)
+
+        if(skip > post_likes_count){
+            console.log('yuuuuuuuuu', post_id)
+            alert("No more Likes")
+            document.getElementById("load_comment_btn").style.display = "none"
+            return;
+        }
+
+        window.location.href = `http://localhost:8000/fetch_post_likes?post_id=${post_id}&page=${++page}`
+
+
+        console.log("page=>",page,"limit=>", limit, "comment_count=>",comment_count)
+    }
+</script>

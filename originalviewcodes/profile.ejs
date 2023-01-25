@@ -1,0 +1,62 @@
+<%- include('./partials/header.ejs') %>
+
+<div class="home-page">
+    <%- include('./partials/nav.ejs')%>
+    <div class="profile-container">
+    <div class="profile">
+        <p> <img src="<%= user.user_pic %>" alt="profile-pic" class="profile-pic"> </p>
+       <p> name: <%= user.username %></p>
+        <p>email: <%= user.email %></p>
+        <p>contact: <%= user.contact %></p>
+        <p>country: <%= user.country %></p>
+        <input type="hidden" value="<%= user._id%>" id="user_id">
+        <input type="hidden" value="<%= user.token%>" id="token">
+
+        <div>
+        <a href="/fetch_create_post_page" class="my-4"><button class="btn btn-primary">Create Post</button></a>
+        <a href="/logout"><button class="btn btn-danger">Logout</button></a>
+    </div>
+        <div id="show-posts" class="d-flex flex-wrap justify-content-evenly mt-4" style="width: 100%;">
+            
+        </div>
+    </div>
+    
+</div>
+</div>
+
+<%- include('./partials/footer.ejs') %>
+
+<script>
+    window.onload = async function (){
+        const user_id = document.getElementById("user_id").value;
+        const token = document.getElementById("token").value;
+        let post_data = '';
+        const res = await fetch(`http://localhost:8000/fetch_all_posts?user_id=${user_id}`, {
+            method: "get",
+            headers:{
+                "Content-type": "application/json",
+                Authorization: `Bearer ${token}`,
+            }
+        })
+
+
+        const data = await res.json();
+        const allPosts = data.allPosts;
+        console.log(allPosts.length)
+        if(allPosts.length > 0){
+        allPosts.map((val)=>{
+            post_data += `
+            <div height="200px" class="profile-page-posts">
+               
+                <div class="text-center" style="#fff"> ${val.caption}</div>
+            <div><img src='${val.post}' alt='post-img' height=200px width=100% style="object-fit:cover"></div>
+            </div>
+            `
+        })
+        document.getElementById('show-posts').innerHTML = post_data
+        }
+        else{
+            return;
+        }
+    }
+</script>

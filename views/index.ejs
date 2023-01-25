@@ -1,0 +1,35 @@
+<%- include('./partials/header.ejs') %>
+<link href="https://fonts.googleapis.com/css?family=Indie+Flower|Overpass+Mono" rel="stylesheet">
+
+<form  action="/login" method="post">
+    
+<div id="wrapper">
+  
+  <div class="main-content">
+    <% if (success.length > 0){ %> 
+        <div class="alert alert-success"><%= success%></div>
+    <% } %>
+    <% if (error.length > 0){ %> 
+        <div class="alert alert-danger"><%= error%></div>
+    <% } %>
+    <div class="header">
+      <img src="https://i.imgur.com/zqpwkLQ.png" />
+    </div>
+    <div class="l-part">
+     <input type="email" name="email" value="<%= formValue && formValue.email%>" placeholder="Email" class="input-1">
+      <div class="overlap-text">
+        <input type="password" name="password"  value="<%= formValue && formValue.password%>" placeholder="Password" class="input-2" >
+        <a href="#">Forgot?</a>
+      </div>
+      <input type="submit"  class="btn1" >
+    </div>
+  </div>
+</form>
+  <div class="sub-content">
+    <div class="s-part">
+      Don't have an account?<a href="/sign_up_page">Sign up</a>
+    </div>
+  </div>
+</div>
+
+<%- include('./partials/footer.ejs') %>

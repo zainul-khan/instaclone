@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="assets/profilestyle.css">
+</head>
+
+<body>
+    <header>
+
+        <div class="container">
+
+            <div class="profile">
+
+                <div class="profile-image">
+
+                    <img src="<%= user.user_pic %>" alt="">
+
+                </div>
+
+                <div class="profile-user-settings">
+
+                    <h1 class="profile-user-name">
+                        <%= user.username %>
+                    </h1>
+
+                    <a href="/fetch_create_post_page" class="my-4 text-center" style="color: #000;"><button class="btn profile-edit-btn">Create Post</button></a>
+                    <button class="btn profile-edit-btn" id="log-out"><a href="/logout">Logout</a></button>
+                    <button class="btn profile-settings-btn" aria-label="profile settings"><i class="fas fa-cog"
+                            aria-hidden="true"></i></button>
+
+                </div>
+
+                <div class="profile-stats">
+
+                    <ul>
+                        <li><span class="profile-stat-count" id="total-post">23</span> posts</li>
+                        <li><span class="profile-stat-count">188</span> followers</li>
+                        <li><span class="profile-stat-count">206</span> following</li>
+                    </ul>
+
+                </div>
+
+                <div class="profile-bio">
+
+                    <p><span class="profile-real-name">
+                            <%= user.username %>
+                        </span> Lorem ipsum dolor sit, amet consectetur adipisicing elit 📷✈️🏕️</p>
+
+                </div>
+
+            </div>
+            <!-- End of profile section -->
+
+        </div>
+        <!-- End of container -->
+
+    </header>
+
+    <main>
+
+        <div class="container">
+           
+            <div class="gallery" id="gallery">
+
+
+            </div>
+            <!-- End of gallery -->
+
+            <div class="loader"></div>
+
+        </div>
+        <!-- End of container -->
+    </main>
+ 
+    <input type="hidden" value="<%= user._id %>" id="user_id">
+    <input type="hidden" value="<%= user.token %>" id="token">
+
+    <script>
+        window.onload = async function () {
+            const user_id = document.getElementById("user_id").value;
+            console.log(user_id);
+            const token = document.getElementById("token").value;
+            console.log(token)
+            let post_data = '';
+            const res = await fetch(`http://localhost:8000/fetch_all_posts?user_id=${user_id}`, {
+                method: "get",
+                headers: {
+                    "Content-type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                }
+            })
+
+
+            const data = await res.json();
+            const allPosts = data.allPosts;
+            console.log(allPosts)
+            console.log(allPosts.length)
+            document.getElementById("total-post").innerHTML = allPosts.length
+            if (allPosts.length > 0) {
+
+                allPosts.map((val) => {
+                    console.log('hi',val)
+                    post_data += `
+            <div class="gallery-item" tabindex="0">
+    
+                
+                ${val.adType == "image" ? `<img class="gallery-image" src='${val.post}' alt="Post Content" /> `: `<video  class="gallery-image" controls > <source src="${val.post}" type="video/mp4" alt="Post Content" /></video>`}
+                
+
+                <div class="gallery-item-info">
+
+                    <ul>
+                        <li class="gallery-item-likes"><span class="visually-hidden">Likes:</span><i class="fas fa-heart" aria-hidden="true"></i> ${val.like_id.length}</li>
+                        <li class="gallery-item-comments"><span class="visually-hidden">Comments:</span><i class="fas fa-comment" aria-hidden="true"></i> ${val.comment_id.length}</li>
+                    </ul>
+
+                </div>
+
+            </div>
+            `
+            
+                })
+                document.getElementById('gallery').innerHTML = post_data
+            }
+            else {
+                return;
+            }
+        }
+    </script>
+</body>
+
+</html>
+

@@ -1,0 +1,74 @@
+<%- include('./partials/header.ejs') %>
+
+<div class="home-page">
+    <%- include('./partials/nav.ejs')%>
+    <h5 class="text-center mt-4" style="font-family: cursive;">Welcome <%= user.username %></h5>
+    <%# console.log(post) %>
+    <% console.log(user) %>
+
+    <% if(post.length > 0){ %>
+        <div class="post-container">
+        <% post.forEach((val, idx)=>{  %>
+            <div class="post-body">
+                <% console.log(val) %>
+                <div class="post-header"> 
+                    <div>
+                        <img src="<%= val.user_id.user_pic %>" alt="" class="post-dp-image">
+                    </div>
+                        <p class="post-dp-title"><%= val.user_id.username %></p>
+                    </div>
+
+                    <% if( val.adType  === "image") { %>
+                        <div><img src="<%= val.post %>" alt="" class="post-image"></div>
+                    <% } %>
+
+                    <% if( val.adType  === "video") { %>
+                        <div>
+                            <video  class="post-image" controls >
+                                <source src="<%= val.post %>" type="video/mp4" >
+                              </video>
+                        </div>
+                    <% } %>
+
+                    <div style="margin: 6px 0 6px 8px;"> 
+                         
+                    
+                         <i class="fa-regular fa-heart" style="cursor: pointer;" onclick="like('<%= val._id %>')"></i>
+
+                     <a href="/fetch_post_likes?post_id=<%= val._id %>"style='margin: 0 4px; padding-top:4px; text-decoration:none'><%= val.child_count_for_like %></a> 
+
+                       <a href="/fetch_post_comment?post_id=<%= val._id %>" style='margin: 0 4px; padding-top:4px'><i class="fa-regular fa-comment"></i></a>
+                   <%= val.child_count_for_comment %>
+                    </div>
+            <div class="post-caption"> <%= val.user_id.username %>: <%= val.caption %></div>
+            <input type="hidden" value="<%= user.token%>" id="token">
+        </div>
+        <% }) %>
+    </div>
+    <% }  else { %>/
+        <p class="text-muted text-center" style="font-size: 2rem;">No Data Found!</p>
+    <% } %>
+
+<%- include('./partials/footer.ejs') %>
+
+<script>
+    async function like(id){
+        const token = document.getElementById("token").value;
+        console.log(token)
+        console.log(id);
+        // let urlParams = new URLSearchParams(window.location.search);
+        // let myParam = urlParams.get('post_id');
+        // console.log(myParam)
+        const res = await fetch(`http://localhost:8000/create_like?post_id=${id}`,{
+            method: "get",
+            headers: {
+                "Content-Type":"application/json",
+                Authorization: `Bearer ${token}`
+            }
+        })
+        console.log(res);
+        const data = await res.json();
+        console.log('data', data);
+        window.location.reload()
+    }
+</script>

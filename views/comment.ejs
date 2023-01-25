@@ -1,0 +1,146 @@
+<%- include('./partials/header.ejs') %>
+
+<div class="home-page">
+    <h3 style="margin-top: 2rem; font-family: cursive; font-weight: 500;"  class="text-center mt-4">Comments: <%= comment_count %></h3>
+    <input type="hidden" value="<%= page %>" id="page">
+    <input type="hidden" value="<%= limit %>" id="limit">
+    <input type="hidden" value="<%= comment_count %>" id="comment_count">
+
+    <%# console.log(comments)%>
+    <% console.log(user)%>
+
+    <%# console.log('commentid', comments[0].user_id._id)%>
+
+
+
+    <% if(comment_count > 0 ) {  %>
+        
+        <div class="post_container">
+            <% comments.forEach((val, idx)=>{ %>
+                <div class="like-body">
+                <div class="post-header">
+                    <p> <%= val.comment %></p>
+                <ul>
+                    <li style="color: gray;">  <%= val.user_id.username %> <img src="<%= val.user_id.user_pic %>" alt="user-profile" class="post-dp-image"></li>
+                </ul>
+                   <% if(user._id == val.user_id.id){ %>
+                    <button class="deletet-btn" onclick="edit_comment('<%= val._id %>',)">Edit</button>
+                   <button class="deletet-btn" onclick="delete_comment('<%= val._id %>', '<%= val.post_id %>')">Delete</button>
+                    <%  } %>
+            </div>
+        </div>
+        <%  }) %>
+        
+    </div>
+    <% } else { %>
+        <p class="text-muted text-center" style="font-size: 2rem;">No Comments Found!</p>
+        <form class="like-body">
+            <div class="comment-area">
+                <p id='msg-err' style="color: red;"></p>
+                <input type="hidden" value="<%= user.token %>" id="user-token">
+                <textarea name="comment" id="text-area" cols="44" rows="4" placeholder="Comment Here"></textarea>
+                <br>
+               <button class="btn btn-primary" onclick="validateMessage(event)">Comment</button>
+            </div>
+        </form>
+        <% } %>
+
+        <% if(comment_count > 0 ) {  %>
+        <div class="like-body"><div class="btn btn-primary" onclick="load_comments('<%= comments[0].post_id %>')" id="load_comment_btn">Load More</div>
+        <form class="like-body">
+            <div class="comment-area">
+                <p id='msg-err' style="color: red;"></p>
+                <input type="hidden" value="<%= user.token %>" id="user-token">
+                <textarea name="comment" id="text-area" cols="44" rows="4" placeholder="Comment Here"></textarea>
+                <br>
+               <button class="btn btn-primary" onclick="validateMessage(event)">Comment</button>
+            </div>
+        </form>
+        <% } %>
+
+    </div>
+   
+    
+</div>
+
+
+<%- include ('./partials/footer.ejs') %>
+
+
+<script>
+
+    function load_comments(post_id){
+        console.log("clicked");
+        console.log(post_id);
+        let page = Number.parseInt(document.getElementById("page").value);
+        let limit = Number.parseInt(document.getElementById("limit").value);
+        let comment_count = Number.parseInt(document.getElementById("comment_count").value);
+        let skip = page * limit;
+        console.log('skip', skip)
+
+        if(skip > comment_count){
+            alert("No more comments")
+            load_comment_btn.style.display = "none"
+            return;
+        }
+
+        window.location.href = `http://localhost:8000/fetch_post_comment?post_id=${post_id}&page=${++page}`
+
+        console.log("page=>",page,"limit=>", limit, "comment_count=>",comment_count)
+    }
+
+    async function validateMessage(e){
+        event.preventDefault();
+        let comment = document.getElementById("text-area").value;
+        let token = document.getElementById("user-token").value;
+        let urlParams = new URLSearchParams(window.location.search);
+        let myParam = urlParams.get('post_id');
+        console.log(typeof myParam)
+
+        console.log("Hello script token", token)
+        if(!comment || comment.trim()==""){
+            document.getElementById("msg-err").innerHTML = '*Message is required';
+            return;
+        }
+        else{
+            console.log('elseeeee')
+            console.log('before stringify', typeof myParam, myParam)
+            console.log('after stringify', typeof myParam, myParam)
+                const res = await fetch(`http://localhost:8000/create_comment?post_id=${myParam}`,{
+                method: "post",
+                headers:{
+                "Content-type": "application/json",
+                Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({comment})
+           })
+           console.log('res', res)
+            const data = await res.json();
+            console.log('data', data);
+            location.reload();
+        }
+    }
+
+    async function edit_comment(id){
+        console.log(id)
+        window.location.href = `http://localhost:8000/render_edit_comment?comment_id=${id}`
+    }
+    async function delete_comment(id, post_id){
+        console.log(id)
+        console.log(post_id)
+
+        let token = document.getElementById("user-token").value;
+        const res = await fetch(`http://localhost:8000/delete_comment/${id}/${post_id}`,{
+            method:"delete",
+            headers:{
+                "Content":"Application/json",
+                Authorization: `Bearer ${token}`
+            }
+        })
+        console.log(res);
+        const data = await res.json();
+        console.log(data);
+        console.log("Deleted")
+        location.reload();
+    }
+</script>

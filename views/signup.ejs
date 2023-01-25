@@ -1,0 +1,24 @@
+<%- include('./partials/header.ejs') %>
+
+    <div class="my-form">
+        <% if (success.length > 0){ %> 
+            <div class="alert alert-success"><%= success%></div>
+        <% } %>
+        <% if (error.length > 0){ %> 
+            <div class="alert alert-danger"><%= error%></div>
+        <% } %>
+        <h3 style="margin-top: 2rem; font-family: cursive; font-weight: bold;">Sign Up</h3>
+        <form action="/sign_up" method="post" enctype="multipart/form-data">
+            <div  class="form_input"><label for="user_pic">Profile:<br> <i class="fa-solid fa-user" style="border: 2px solid black; font-size: 2rem; border-radius: 50%; padding: 10px; cursor: pointer;"><input type="file" name="user_pic" id="user_pic" style="display: none;"></i></label></div>
+            <div  class="form_input"><label for="username">Username: </label><br><input type="text" name="username"></div>
+            <div  class="form_input"><label for="email">Email: </label><br><input type="email" name="email"></div>
+            <div  class="form_input"><label for="contact">Contact: </label><br><input type="tel" name="contact"></div>
+            <div  class="form_input"><label for="password">Password: </label><br><input type="password" name="password"></div>
+            <div  class="form_input"><label for="confirm_password">Confirm Password: </label><br><input type="password" name="confirm_password"></div>
+            <div  class="form_input"><label for="country">Country: </label><br><input type="text" name="country"></div>
+            <div  class="form_input"><input type="submit" class="btn2" >
+        </form>
+        <p>Already a user? <a href="/">sign in</a></p>
+    </div>
+
+<%- include('./partials/footer.ejs') %>

@@ -1,0 +1,76 @@
+<%- include('./partials/header') %>
+
+    <div class="home-page">
+            <% if (success.length> 0) { %>
+                <div class="alert alert-success">
+                    <%= success%>
+                </div>
+                <% } %>
+                    <% if (error.length> 0){ %>
+                        <div class="alert alert-danger">
+                            <%= error%>
+                        </div>
+                        <% } %>
+                            <div class="post-container">
+                                <div class="like-body">
+                                    <h3 class="text-center" style="font-family: cursive;">Create New Post</h3>
+                                    <form class="my-form" enctype="multipart/form-data">
+                                        <p class="text-center" style="color: red; font-weight: bold;" id="post-err"></p>
+                                        <div class="alert alert-success mt-4" style="display: none;" id="alert-success">Post Created Successfully!!!</div>
+                                        <input type="hidden" value="<%= user.token %>" id="token">
+                                        <div>
+                                            <div><input type="text" name="caption" id="caption"
+                                                    class="post-caption-input" placeholder="Enter Caption..."></div>
+                                        </div>
+
+                                        <div class="user-post">
+                                            <label for="post" class="user-post-label my-3">Select File <input
+                                                    type="file" name="post" id="post"></label>
+                                        </div>
+                                        <button class="btn btn-primary" onclick="validatePost(event)">Post</button>
+                                        <!-- <button class="btn btn-danger" onclick="validateMessage(event)">Comment</button> -->
+                                    </form>
+                                </div>
+                            </div>
+    </div>
+
+    <script>
+        async function validatePost(event) {
+            event.preventDefault();
+            let caption = document.getElementById('caption').value;
+            let post = document.getElementById("post").files[0];
+            let token = document.getElementById("token").value;
+            // console.log(caption, post, token);
+
+            if (!post) {
+                document.getElementById("post-err").innerHTML = "*Post is required";
+                return
+            }
+            else {
+                console.log('post =======>', post)
+
+                let formData = new FormData();
+                if(caption){
+                    formData.append("caption", caption);
+                }
+                formData.append("post", post);
+
+                console.log('formdata============>', formData)
+                // return;
+
+                const res = await fetch("/create_post", {
+                    method: "post",
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                    body: formData
+                })
+                console.log('hello', res)
+                if(res.status === 201){
+                    const data = await res.json();
+                    console.log(data)
+                    document.getElementById("alert-success").style.display = "block";
+                }
+            }
+        }
+    </script>

@@ -1,0 +1,19 @@
+//include header
+<div class="my-form">
+    <% if (success.length > 0){ %> 
+        <div class="alert alert-success"><%= success%></div>
+    <% } %>
+    <% if (error.length > 0){ %> 
+        <div class="alert alert-danger"><%= error%></div>
+    <% } %>
+   
+    <h1 class="my-4">Login</h1>
+    <form action="/login" method="post">
+        <div class="form_input"><label for="email">Email: </label><br><input type="email" name="email" value="<%= formValue && formValue.email%>"></div>
+        <div class="form_input"><label for="password">Password: </label><br><input type="password" name="password"  value="<%= formValue && formValue.password%>"></div>
+        <div class="form_input"><input type="submit"></div>
+    </form>
+    <p>Not a user? <a href="/sign_up_page">sign up</a></p>
+</div>
+
+//include footer

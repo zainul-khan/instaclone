@@ -1,0 +1,372 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    /* background-color: rgb(88, 87, 87); */
+    background-color: #eee;
+}
+
+.nav{
+    background-color:rgb(37, 36, 36);
+    color: #fff;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    display: flex;
+    justify-content: space-between;
+}
+.nav ul {
+    display: flex;
+    margin: 12px 0;
+}
+.nav ul li {
+    list-style-type: none;
+    margin: 8px 12px;
+}
+.nav ul li a{
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+}
+.nav ul li a:hover{
+    border-bottom: 2px solid #fff;
+}
+.my-form{
+    background-color:#fff;
+    width: 50%;
+    display: block;
+    margin-top: 4rem;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    min-height: 400px;
+    padding-bottom: 10px;
+}
+
+.form_input{
+    margin: 0.7rem 0;
+}
+
+
+.form_input label{
+    font-size: 1.2rem;
+}
+
+.form_input input{
+    /* padding: 2px 6px;
+    border-radius: 10px;
+    outline: none; */
+    margin-bottom: 5px;
+    padding: 6px 12px;
+    border: 1px solid #dbdbdb;
+    box-sizing: border-box;
+    border-radius: 3px;
+}
+
+.home-page{
+    width: 60%;
+    max-height: 100%;
+    display: block;
+    margin: 3rem auto;
+    background-color: #fff;
+}
+
+.profile-container{
+    width: 60%;
+    display: block;
+    margin: 0 auto;
+}
+.profile{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 0;
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+.profile-pic{
+    height: 100px;
+    width: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid lawngreen;
+} 
+.post-container{
+    display: block;
+    margin: 0 auto;
+    /* border: 2px solid lawngreen; */
+    height: 70vh;
+    overflow-y: scroll;
+}
+.post-container::-webkit-scrollbar {
+    display: none;
+  }
+  
+.post_container{
+    border: 2px solid #000;
+    min-height: 60vh;
+}
+.post-image{
+    height: 300px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.post-header{
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    border-bottom: 2px solid rgb(164, 162, 162);
+}
+.post-dp-image{
+    height: 30px;
+    width: 30px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin: 8px 10px;
+}
+
+.post-body{
+    border: 2px solid rgb(164, 162, 162);
+    width: 350px;
+    display: block;
+    margin: 20px auto;
+    /* padding: 2px; */
+    border-radius: 20px;
+}
+.post-dp-title{
+    margin: 8px 10px;
+    font-weight: 500;
+}
+.post-caption{
+    padding: 10px 0;
+   font-weight: bold;
+   margin-left: 12px;
+}
+.like-body{
+    width: 350px;
+    display: block;
+    margin: 20px auto;
+    /* padding: 2px; */
+    border-radius: 20px;
+    /* border: 2px solid black; */
+}
+.like-body ul li{
+    list-style-type: none;
+}
+/* .comment-area{
+    border: 2px solid red;
+  
+} */
+.comment-area textarea{
+   padding: 4px;
+   margin-bottom: 10px;
+   border-radius: 10px;
+}
+.user-post input[type="file"]{
+    display: none;
+}
+.user-post-label{
+    color: white;
+    background-color: rgb(164, 162, 162);
+    height: 40px;
+    width: 100px;
+    line-height: 2.5rem;
+    align-items: center;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.post-caption-input{
+    border: 2px solid rgb(164, 162, 162);
+    padding: 3px 6px;
+    border-radius: 10px;
+    outline: none;
+}
+.post-caption{
+    font-size: 1rem;
+}
+.deletet-btn{
+    height: 40px;
+}
+.edit_input{
+   width: 100%;
+   margin: 20px 0;
+   border-radius: 10px;
+   height: 30px;
+   outline: none;
+}
+.profile-page-posts{
+    width: 33.33%;
+    
+ }
+@media screen and (max-width:600px) {
+    .home-page{
+        width: 90%;
+    }
+    .my-form{
+        background-color:#fff;
+        width: 80%;
+    }
+    .profile-container{
+        width: 90%;
+    }
+    .profile{
+        text-align: center;
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+}
+
+@media screen and (max-width:500px) {
+    .home-page{
+        width: 90%;
+    }
+    .my-form{
+        background-color:#fff;
+        width: 80%;
+    }
+    .post-container{
+        width: 100%;
+        height: 80vh;
+
+    }
+    .post_container{
+        width: 300px;
+    }
+    .post-body{
+        width: 300px;
+    }
+    .profile-container{
+        width: 100%;
+    }
+    .profile{
+        text-align: center;
+        font-size: 1.1rem;
+        font-weight: 500;
+    }
+    .edit_input{
+        width: 80%;
+        margin: 20px auto;
+        border-radius: 10px;
+        height: 30px;
+        outline: none;
+        display: block;
+     }
+     .edit-msg-btn{
+        display: block;
+        margin-left: 10%;
+     }
+     .profile-page-posts{
+        width: 50%;
+     }
+}
+
+/***************************COPY PASTED CODE************************ */
+
+#wrapper {
+    width: 500px;
+    height: 50%;
+    overflow: hidden;
+    border: 0px solid #000;
+    margin: 50px auto;
+    padding: 10px;
+  }
+  
+  .main-content {
+    width: 350px;
+    height: 40%;
+    margin: 10px auto;
+    background-color: #fff;
+    border: 2px solid #e6e6e6;
+    padding: 40px 50px;
+  }
+  
+  .header {
+    border: 0px solid #000;
+    margin-bottom: 5px;
+  }
+  
+  .header img {
+    height: 50px;
+    width: 175px;
+    margin: auto;
+    position: relative;
+    left: 40px;
+  }
+  
+  .input-1,
+  .input-2 {
+    width: 100%;
+    margin-bottom: 5px;
+    padding: 8px 12px;
+    border: 1px solid #dbdbdb;
+    box-sizing: border-box;
+    border-radius: 3px;
+  }
+  
+  .overlap-text {
+    position: relative;
+  }
+  
+  .overlap-text a {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    color: #003569;
+    font-size: 14px;
+    text-decoration: none;
+    font-family: 'Overpass Mono', monospace;
+    letter-spacing: -1px;
+  }
+  
+  .btn1 {
+    width: 100%;
+    background-color: #3897f0;
+    border: 1px solid #3897f0;
+    padding: 5px 12px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 3px;
+  }
+  .btn2 {
+    width: 200px;
+    background-color: #3897f0;
+    border: 1px solid #3897f0;
+    padding: 5px 12px;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 3px;
+  }
+  .sub-content {
+    width: 350px;
+    height: 40%;
+    margin: 10px auto;
+    border: 1px solid #e6e6e6;
+    padding: 20px 50px;
+    background-color: #fff;
+  }
+  
+  .s-part {
+    text-align: center;
+    font-family: 'Overpass Mono', monospace;
+    word-spacing: -3px;
+    letter-spacing: -2px;
+    font-weight: normal;
+  }
+  
+  .s-part a {
+    text-decoration: none;
+    cursor: pointer;
+    color: #3897f0;
+    font-family: 'Overpass Mono', monospace;
+    word-spacing: -3px;
+    letter-spacing: -2px;
+    font-weight: normal;
+  }
+  
+  
